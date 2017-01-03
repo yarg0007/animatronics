@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.is;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class PwmMotorTests {
+public class PwmMotorTest {
 
 	PwmMotor motor;
 
