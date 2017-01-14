@@ -7,30 +7,70 @@ public abstract class PwmMotor {
 	private ArrayList<AnimationKey> animationKeys = new ArrayList<>();
 	private int pwmChannel;
 
+	/**
+	 * Maximum tick value to achieve maximum rotation.
+	 * @return Maximum tick value.
+	 */
 	public abstract int getMaxTick();
 
+	/**
+	 * Minimum tick value to achieve minimum rotation.
+	 * @return Minimum tick value.
+	 */
 	public abstract int getMinTick();
 
+	/**
+	 * Maximum rotation angle for the motor.
+	 * @return Maximum rotation angle for the motor.
+	 */
 	public abstract double getMaxAngle();
 
+	/**
+	 * Minimum rotation angle for the motor.
+	 * @return Minimum rotation angle for the motor.
+	 */
 	public abstract double getMinAngle();
 
+	/**
+	 * Name or ID of the motor. Used when referencing the motor for consumers."
+	 * @return Name or ID of the motor.
+	 */
 	public abstract String getMotorId();
 
+	/**
+	 * Get the signaling frequency in Hz.
+	 * @return Frequency in Hz.
+	 */
 	public abstract int getSignalFrequency();
 
+	/**
+	 * Get the PWM channel for this motor.
+	 * @return The PWM channel for this motor.
+	 */
 	public int getPwmChannel() {
 		return pwmChannel;
 	}
 
+	/**
+	 * Set the PWM channel for this motor.
+	 * @param pwmChannel PWM channel for this motor.
+	 */
 	public void setPwmChannel(int pwmChannel) {
 		this.pwmChannel = pwmChannel;
 	}
 
+	/**
+	 * Get the number of animation keys set for this motor.
+	 * @return Number of animation keys set for this motor.
+	 */
 	public int getNumberOfKeys() {
 		return animationKeys.size();
 	}
 
+	/**
+	 * Get the first animation key index.
+	 * @return First animation key index, or -1 if there aren't any animation keys set.
+	 */
 	public int getFirstAnimationKeyIndex() {
 		if (animationKeys.size() == 0) {
 			return -1;
@@ -39,14 +79,29 @@ public abstract class PwmMotor {
 		return 0;
 	}
 
+	/**
+	 * Get the last animation key index.
+	 * @return Last animation key index, or -1 if there aren't any animation keys set.
+	 */
 	public int getLastAnimationKeyIndex() {
 		return animationKeys.size() - 1;
 	}
 
+	/**
+	 * Get the tick value at the animation index specified.
+	 * @param index Animation index to retrieve tick value for.
+	 * @return Tick value.
+	 */
 	public int getTickAtIndex(int index) {
 		return animationKeys.get(index).getTick();
 	}
 
+	/**
+	 * Set the tick value at the animation index specified. Clamped to the max and min tick values defined for the
+	 * motor.
+	 * @param index Index to set the tick value for.
+	 * @param tick Tick value to set at the index specified.
+	 */
 	public void setTickAtIndex(int index, int tick) {
 
 		if (tick > getMaxTick()) {
@@ -58,10 +113,21 @@ public abstract class PwmMotor {
 		animationKeys.get(index).setTick(tick);
 	}
 
+	/**
+	 * Get the time in milliseconds of the animation index specified.
+	 * @param index Animation index to retrieve tick value for.
+	 * @return Time in milliseconds from the start of the animation sequence.
+	 */
 	public long getTimeAtIndex(int index) {
 		return animationKeys.get(index).getTime();
 	}
 
+	/**
+	 * Set the time of the animation index specified. The time specified must be greater than the previous animation
+	 * key's time and less than the next animation key's time.
+	 * @param index Animation index to set the time for.
+	 * @param time Time, in milliseconds, from the start of the animation (0) to set this animtion key time to.
+	 */
 	public void setTimeAtIndex(int index, long time) {
 
 		if (index > 0 && getTimeAtIndex(index - 1) >= time) {
@@ -74,7 +140,8 @@ public abstract class PwmMotor {
 	}
 
 	/**
-	 * Set the rotation angle for the animation key at specified index.
+	 * Set the rotation angle for the animation key at specified index. Clamped to the max and min angle values defined
+	 * for the motor.
 	 * @param index Animation key index to set rotation for.
 	 * @param angle Angle to set.
 	 */
@@ -173,6 +240,10 @@ public abstract class PwmMotor {
 		animationKeys.remove(index);
 	}
 
+	/**
+	 * Calculate the number of ticks per millisecond based on the subclass implementation.
+	 * @return Number of ticks per second for the subclass motor.
+	 */
 	protected int getTicksPerMillisecond() {
 
 		int millisecondRefresh = 1000 /  getSignalFrequency();
@@ -180,6 +251,11 @@ public abstract class PwmMotor {
 		return ticksPerMillisecond;
 	}
 
+	/**
+	 * Convert angle to ticks for the motor defined in the subclass.
+	 * @param angle Angle to convert.
+	 * @return Angle converted to ticks.
+	 */
 	protected int convertAngleToTicks(double angle) {
 
 		double angleDelta = getMaxAngle() - getMinAngle();
@@ -189,6 +265,11 @@ public abstract class PwmMotor {
 		return ticksConverted;
 	}
 
+	/**
+	 * Convert ticks to angle for the motor defined in the subclass.
+	 * @param ticks Ticks to convert.
+	 * @return Ticks converted to degrees.
+	 */
 	protected double convertTicksToAngle(int ticks) {
 
 		int fromMinTickDelta = ticks - getMinTick();
