@@ -6,6 +6,7 @@ public abstract class PwmMotor {
 
 	private ArrayList<AnimationKey> animationKeys = new ArrayList<>();
 	private int pwmChannel;
+	private int pwmBoardAddress;
 
 	/**
 	 * Maximum tick value to achieve maximum rotation.
@@ -44,7 +45,23 @@ public abstract class PwmMotor {
 	public abstract int getSignalFrequency();
 
 	/**
-	 * Get the PWM channel for this motor.
+	 * Get the address of the PWM board that this motor is connected to.
+	 * @return The address of the PWM board for this motor.
+	 */
+	public int getPwmBoardAddress() {
+		return pwmBoardAddress;
+	}
+
+	/**
+	 * Set the address of the PWM board that this motor is connected to.
+	 * @param pwmBoardAddress The address of the PWM board for this motor.
+	 */
+	public void setPwmBoardAddress(int pwmBoardAddress) {
+		this.pwmBoardAddress = pwmBoardAddress;
+	}
+
+	/**
+	 * Get the channel on the PWM board that this motor is connected to.
 	 * @return The PWM channel for this motor.
 	 */
 	public int getPwmChannel() {
@@ -52,7 +69,7 @@ public abstract class PwmMotor {
 	}
 
 	/**
-	 * Set the PWM channel for this motor.
+	 * Set the channel on the PWM board that this motor is connected to.
 	 * @param pwmChannel PWM channel for this motor.
 	 */
 	public void setPwmChannel(int pwmChannel) {
