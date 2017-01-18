@@ -292,7 +292,7 @@ public class PwmMotorTest {
 
 	@Test(enabled=true, groups={"PwmMotorTests","unit"})
 	public void calculateTicksPerMillisecond() {
-		int ticksPerMillisecond = motor.getTicksPerMillisecond();
+		int ticksPerMillisecond = PwmMotor.getTicksPerMillisecond(50);
 		assertThat(ticksPerMillisecond, is(equalTo(204)));
 	}
 
@@ -375,11 +375,5 @@ public class PwmMotorTest {
 		public String getMotorId() {
 			return "Test Motor MG995R";
 		}
-
-		@Override
-		public int getSignalFrequency() {
-			return 50;
-		}
-
 	}
 }

@@ -39,10 +39,16 @@ public abstract class PwmMotor {
 	public abstract String getMotorId();
 
 	/**
-	 * Get the signaling frequency in Hz.
-	 * @return Frequency in Hz.
+	 * Calculate the number of ticks per millisecond based on the specified signaling frequency.
+	 * @param signalFrequencyHz The signal frequency used with the motor. Comes from PWM board.
+	 * @return Number of ticks per second for the subclass motor.
 	 */
-	public abstract int getSignalFrequency();
+	public static int getTicksPerMillisecond(int signalFrequencyHz) {
+
+		int millisecondRefresh = 1000 /  signalFrequencyHz;
+		int ticksPerMillisecond = 4096 / millisecondRefresh;
+		return ticksPerMillisecond;
+	}
 
 	/**
 	 * Get the address of the PWM board that this motor is connected to.
@@ -255,17 +261,6 @@ public abstract class PwmMotor {
 	 */
 	public void removeKeyAtIndex(int index) {
 		animationKeys.remove(index);
-	}
-
-	/**
-	 * Calculate the number of ticks per millisecond based on the subclass implementation.
-	 * @return Number of ticks per second for the subclass motor.
-	 */
-	protected int getTicksPerMillisecond() {
-
-		int millisecondRefresh = 1000 /  getSignalFrequency();
-		int ticksPerMillisecond = 4096 / millisecondRefresh;
-		return ticksPerMillisecond;
 	}
 
 	/**
