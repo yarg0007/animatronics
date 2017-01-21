@@ -1,12 +1,35 @@
 package com.yarg.animatronics.datamodel;
 
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public abstract class PwmMotor {
 
 	private ArrayList<AnimationKey> animationKeys = new ArrayList<>();
-	private int pwmChannel;
-	private int pwmBoardAddress;
+	private int pwmChannel = 1;
 
 	/**
 	 * Maximum tick value to achieve maximum rotation.
@@ -48,22 +71,6 @@ public abstract class PwmMotor {
 		int millisecondRefresh = 1000 /  signalFrequencyHz;
 		int ticksPerMillisecond = 4096 / millisecondRefresh;
 		return ticksPerMillisecond;
-	}
-
-	/**
-	 * Get the address of the PWM board that this motor is connected to.
-	 * @return The address of the PWM board for this motor.
-	 */
-	public int getPwmBoardAddress() {
-		return pwmBoardAddress;
-	}
-
-	/**
-	 * Set the address of the PWM board that this motor is connected to.
-	 * @param pwmBoardAddress The address of the PWM board for this motor.
-	 */
-	public void setPwmBoardAddress(int pwmBoardAddress) {
-		this.pwmBoardAddress = pwmBoardAddress;
 	}
 
 	/**
@@ -290,4 +297,64 @@ public abstract class PwmMotor {
 		double angleConverted = fromMinTickDelta * angleDelta / tickDelta + getMinAngle();
 		return angleConverted;
 	}
+
+	/**
+	 * Return a copy of the animation keys list for this motor.
+	 * @return Copy of the animation keys list for this motor.
+	 */
+	protected List<AnimationKey> getAnimationKeys() {
+		ArrayList<AnimationKey> copyOfAnimationKeys = new ArrayList<>();
+		copyOfAnimationKeys.addAll(animationKeys);
+		return copyOfAnimationKeys;
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(33, 19)
+				.append(animationKeys)
+				.append(pwmChannel)
+				.append(getMaxAngle())
+				.append(getMinAngle())
+				.append(getMaxTick())
+				.append(getMinTick())
+				.append(getMotorId())
+				.toHashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (this == obj) {
+			return true;
+		} else if (!(obj instanceof PwmMotor)) {
+			return false;
+		}
+
+		PwmMotor compareObj = (PwmMotor) obj;
+		return new EqualsBuilder()
+				.append(getAnimationKeys(), compareObj.getAnimationKeys())
+				.append(getPwmChannel(), compareObj.getPwmChannel())
+				.append(getMaxAngle(), compareObj.getMaxAngle())
+				.append(getMinAngle(), compareObj.getMinAngle())
+				.append(getMaxTick(), compareObj.getMaxTick())
+				.append(getMinTick(), compareObj.getMinTick())
+				.append(getMotorId(), compareObj.getMotorId())
+				.isEquals();
+	}
+
+	@Override
+	public String toString() {
+
+		return new ToStringBuilder(this)
+				.append("Animation Keys", getAnimationKeys())
+				.append("Pwm Channel", getPwmChannel())
+				.append("Max Angle", getMaxAngle())
+				.append("Min Angle", getMinAngle())
+				.append("Max Tick", getMaxTick())
+				.append("Min Tick", getMinTick())
+				.append("Motor Id", getMotorId())
+				.toString();
+	}
+
+
 }

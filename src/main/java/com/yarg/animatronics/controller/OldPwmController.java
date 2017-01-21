@@ -24,6 +24,7 @@ import java.io.IOException;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
+import com.pi4j.io.i2c.I2CFactory.UnsupportedBusNumberException;
 
 public class OldPwmController extends Thread {
 
@@ -96,8 +97,9 @@ public class OldPwmController extends Thread {
 	/**
 	 * Get the PWMController singleton.
 	 * @return PWMController singleton instance.
+	 * @throws UnsupportedBusNumberException
 	 */
-	public static OldPwmController getInstance()
+	public static OldPwmController getInstance() throws UnsupportedBusNumberException
 	{
 		if (pwmController == null) {
 			pwmController = new OldPwmController();
@@ -107,8 +109,9 @@ public class OldPwmController extends Thread {
 
 	/**
 	 * Create the singleton PWM controller instance.
+	 * @throws UnsupportedBusNumberException
 	 */
-	private OldPwmController()
+	private OldPwmController() throws UnsupportedBusNumberException
 	{
 		previousDriveInput = 0;
 		init(0x40); // 0x40 obtained through sudo i2cdetect -y 1
@@ -290,7 +293,7 @@ public class OldPwmController extends Thread {
 		return (int)result;
 	}
 
-	private void init(int address) {
+	private void init(int address) throws UnsupportedBusNumberException {
 
 		try
 		{

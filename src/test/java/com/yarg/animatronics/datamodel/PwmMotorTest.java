@@ -346,6 +346,16 @@ public class PwmMotorTest {
 		assertThat(angle, is(equalTo(-90.0)));
 	}
 
+	// ------------------------------------------------------------------------
+	// Check default channel tests
+	// ------------------------------------------------------------------------
+
+	@Test(enabled=true, groups={"PwmMotorTests","unit"})
+	public void defaultPwmChannel() {
+
+		assertThat(motor.getPwmChannel(), is(equalTo(1)));
+	}
+
 	/*
 	 * Implementation of the PwmMotor abstract class for testing purposes.
 	 */
