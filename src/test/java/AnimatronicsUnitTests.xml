@@ -11,6 +11,9 @@
     <packages>
       <package name="com.yarg.animatronics.datamodel" />
       <package name="com.yarg.animatronics.log" />
+      
+      <!-- Controller tests must be run on a Raspberry PI otherwise you will experience errors. -->
+      <!-- <package name="com.yarg.animatronics.controller" /> -->
    </packages>
  </test>
 </suite>

@@ -88,6 +88,7 @@ public class PCA69855Controller {
 	public void writePwm(int boardAddress, int channel, int on, int off) throws IOException {
 
 		I2CDevice device = boardAddressToI2cDeviceMap.get(Integer.valueOf(boardAddress));
+
 		if (device == null) {
 			throw new IllegalArgumentException("Unknown board address specified: " + boardAddress + ".");
 		}
