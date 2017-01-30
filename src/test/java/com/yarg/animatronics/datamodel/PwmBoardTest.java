@@ -85,6 +85,27 @@ public class PwmBoardTest {
 		testBoard.addMotor(testMotor1);
 	}
 
+	// ------------------------------------------------------------------------
+	// Confirm equals implementation
+	// ------------------------------------------------------------------------
+
+	@Test(enabled=true, groups={"PwmBoardTests","unit"})
+	public void confirmEquals() {
+
+		TestPwmBoard boardA = new TestPwmBoard();
+		TestPwmBoard boardB = new TestPwmBoard();
+
+		boardA.setPwmBoardAddress(0x40);
+		boardB.setPwmBoardAddress(0x40);
+
+		TestPwmMotor testMotor = new TestPwmMotor();
+
+		boardA.addMotor(testMotor);
+		boardB.addMotor(testMotor);
+
+		assertThat(boardA, is(equalTo(boardB)));
+	}
+
 	/*
 	 * Implementation of PwmBoard abstract class for testing purposes.
 	 */

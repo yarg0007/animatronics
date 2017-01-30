@@ -10,6 +10,7 @@
   
     <packages>
       <package name="com.yarg.animatronics.datamodel" />
+      <package name="com.yarg.animatronics.log" />
    </packages>
  </test>
 </suite>

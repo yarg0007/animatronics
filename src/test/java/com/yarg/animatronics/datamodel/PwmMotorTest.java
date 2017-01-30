@@ -356,6 +356,18 @@ public class PwmMotorTest {
 		assertThat(motor.getPwmChannel(), is(equalTo(1)));
 	}
 
+	// ------------------------------------------------------------------------
+	// Confirm equals implementation
+	// ------------------------------------------------------------------------
+
+	@Test(enabled=true, groups={"PwmMotorTests","unit"})
+	public void confirmEquals() {
+
+		TestPwmMotor motorA = new TestPwmMotor();
+		TestPwmMotor motorB = new TestPwmMotor();
+		assertThat(motorA, is(equalTo(motorB)));
+	}
+
 	/*
 	 * Implementation of the PwmMotor abstract class for testing purposes.
 	 */
