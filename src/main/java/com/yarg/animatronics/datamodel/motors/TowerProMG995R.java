@@ -1,4 +1,6 @@
-package com.yarg.animatronics.datamodel;
+package com.yarg.animatronics.datamodel.motors;
+
+import com.yarg.animatronics.datamodel.PwmMotor;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -20,25 +22,34 @@ package com.yarg.animatronics.datamodel;
  */
 
 /**
- * This is an implementation of the Adafruit PCA6985 PWM Board used with the Raspberry PI.
- *
- * Datasheet: https://cdn-shop.adafruit.com/datasheets/PCA9685.pdf
- * Other related information: https://learn.adafruit.com/16-channel-pwm-servo-driver/downloads
+ * Implementation of the TowerPro MG995R Servo.
  *
  * @author Ben Yarger benjamin.yarger@gmail.com
  */
-public class PCA6985PwmBoard extends PwmBoard {
-
-	private static final int hertz = 50;
-	private static final int numberOfChannels = 16;
+public class TowerProMG995R extends PwmMotor {
 
 	@Override
-	public int getFrequency() {
-		return hertz;
+	public int getMaxTick() {
+		return 410;
 	}
 
 	@Override
-	public int getNumberOfChannels() {
-		return numberOfChannels;
+	public int getMinTick() {
+		return 205;
+	}
+
+	@Override
+	public double getMaxAngle() {
+		return 90.0;
+	}
+
+	@Override
+	public double getMinAngle() {
+		return -90.0;
+	}
+
+	@Override
+	public String getMotorId() {
+		return "TowerPro MG995R";
 	}
 }

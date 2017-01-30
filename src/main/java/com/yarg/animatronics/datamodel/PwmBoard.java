@@ -22,6 +22,10 @@ package com.yarg.animatronics.datamodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public abstract class PwmBoard {
 
 	protected ArrayList<PwmMotor> motors = new ArrayList<>();
@@ -87,5 +91,45 @@ public abstract class PwmBoard {
 		}
 
 		motors.add(motor);
+	}
+
+	@Override
+	public int hashCode() {
+
+		return new HashCodeBuilder(99, 35)
+				.append(getFrequency())
+				.append(getNumberOfChannels())
+				.append(getPwmBoardAddress())
+				.append(getAttachedMotors())
+				.toHashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (this == obj) {
+			return true;
+		} else if (!(obj instanceof PwmBoard)) {
+			return false;
+		}
+
+		PwmBoard compareObj = (PwmBoard) obj;
+		return new EqualsBuilder()
+				.append(getFrequency(), compareObj.getFrequency())
+				.append(getNumberOfChannels(), compareObj.getNumberOfChannels())
+				.append(getPwmBoardAddress(), compareObj.getPwmBoardAddress())
+				.append(getAttachedMotors(), compareObj.getAttachedMotors())
+				.isEquals();
+	}
+
+	@Override
+	public String toString() {
+
+		return new ToStringBuilder(this)
+				.append("Frequency", getFrequency())
+				.append("Number of channels", getNumberOfChannels())
+				.append("PWM board address", getPwmBoardAddress())
+				.append("Attached motors", getAttachedMotors())
+				.toString();
 	}
 }
